@@ -1,23 +1,50 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Employee from './components/Employee';
+import {React, useState } from 'react';
+import Task from './components/Task';
+import AddEmployee from './components/AddEmployee';
 
 function App() {
+  const[showModal,setShowModal]=useState(false);
+  const[tasks,setTask]=useState([]);
+  const addEmployee=text=>{
+    const newEmployee=[...tasks,{text}];
+    setTask(newEmployee);
+  }
+  const removeEmployee=index=>{
+    const newEmployee=[...tasks];
+    alert(`Please confirm if you want to remove ${'details'}`)
+    newEmployee.splice(index,1);
+    setTask(newEmployee);
+  }
+  // const editEmployee=()=>{
+  //   alert("Do you want to edit");
+  // }
+  const add=()=>{
+   setShowModal(prev=>(!prev));
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+      <h2>Employee Information</h2>
+      <button onClick={add} >Add</button>
+      <AddEmployee showModal={showModal}setShowModal={setShowModal}/>
+      </div>
+      <div className="list">
+        {tasks.map((task,index)=>(
+          <Task
+          key={index}
+          index={index}
+          task={task}
+          // editEmployee={editEmployee}
+          removeEmployee={removeEmployee}
+          />
+        ))}
+        {/* <AddEmployee/> */}
+      <Employee addEmployee={addEmployee}/>
+    </div>
     </div>
   );
 }
